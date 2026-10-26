@@ -496,13 +496,15 @@ func test_all_ui_texts_translated():    # ninguna etiqueta visible muestra una c
 - Consume: `GameCamera`, `Room.bounds`.
 - Produce:
   - `docs/art/prompts.md`: guía de estilo (paleta de la spec §5.2, luz difusa, niebla, pintura digital con pinceladas visibles, "no pixel art, no characters", 16:9 y 4K) + prompts concretos por sala y capa (lejana, media, cercana) para r01, r06 y r10, con instrucciones para el autor: dónde generarlos y cómo nombrar los archivos (`art/backgrounds/zone1/<sala>_<capa>.png`).
-  - `ParallaxBackground` por sala con factores `far = 0.15`, `mid = 0.4`, `near = 0.75` y una capa de primer plano con factor 1.15 desenfocada.
+  - **Escenario en profundidad (spec §5.1b):** `class_name DepthLayer extends Node2D` con `@export var depth: float` y `@export var fog_color: Color`; `static func parallax_factor(depth: float) -> float` (= `1000 / (1000 + depth)`); cada frame se desplaza respecto a la cámara para que `pantalla = posición − cámara·factor`; niebla `fog_amount = clamp(depth / 3000, 0, 0.85)` mezclada hacia `fog_color`; con `depth < 0` se oscurece hacia silueta (`modulate` ×0.15) y se desenfoca con shader. Las imágenes de Higgsfield son `DepthLayer` (lejana ≈ 4000, media ≈ 1500, cercana ≈ 400) y además cada sala tiene elementos sueltos (columnas, ramas, cadenas, ruinas) a profundidades variadas, dibujados con `Polygon2D` mientras no haya arte. La Tarea 11 construye las salas con estos elementos.
   - `tools/strip_background.py`: quita el fondo de una capa (PNG con transparencia) usando `rembg`.
   - Si falta una imagen, se muestra un sustituto rosa visible y se registra un aviso (spec §8.5).
 
 - [ ] **Paso 1: pruebas que fallan**
 ```gdscript
-func test_parallax_factors():
+func test_parallax_factors():   # depth 0 → 1.0; depth 1000 → 0.5; depth -200 → 1.25
+func test_fog_increases_with_depth():
+func test_foreground_darkened(): # depth -200 → modulate más oscuro que depth 0
 func test_missing_layer_uses_placeholder():  # ruta inexistente → textura sustituta, sin errores
 ```
 - [ ] **Paso 2:** ejecutar → FALLA. **Paso 3:** implementar y escribir `prompts.md`. **Paso 4:** ejecutar → PASA.

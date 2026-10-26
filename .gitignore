@@ -1,0 +1,4 @@
+.superpowers/
+.godot/
+export/
+*.tmp

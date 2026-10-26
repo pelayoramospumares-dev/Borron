@@ -118,6 +118,13 @@ Más un **pequeño núcleo central** (un Tintero mayor) que conecta las tres zon
 - Siluetas negras vivas (protagonista y enemigos) sobre **fondos pintados, desvaídos y melancólicos** con varias capas de profundidad (*parallax*).
 - Resolución base **1920×1080**, assets preparados para verse nítidos hasta 4K. Filtrado suave, sin *pixel snap*.
 
+### 5.1b Escenarios en profundidad (técnica tipo Hollow Knight)
+Hollow Knight coloca dibujos 2D a distintas distancias de una cámara con perspectiva: al moverte, lo lejano se desplaza despacio y lo cercano rápido, y hay elementos que pasan **por delante** del jugador. *Borrón* reproduce ese efecto en el 2D de Godot:
+- Cada elemento del escenario tiene una **profundidad** `depth` (0 = plano de juego; positiva = detrás; negativa = delante).
+- Su desplazamiento sigue la fórmula de perspectiva `factor = F / (F + depth)` con `F = 1000`, idéntica a la de una cámara 3D. Así no hay solo 3 capas: puede haber decenas de elementos, cada uno a su distancia.
+- **Niebla atmosférica:** cuanto más lejos, más se tiñe del color de niebla de la zona y pierde contraste. Lo que está delante del jugador se oscurece casi a silueta y se desenfoca.
+- Se mantiene el 2D (en vez de 3D real) porque personajes, físicas, luces 2D y *glow* ya son 2D; el resultado visual es el mismo.
+
 ### 5.2 Paleta
 - **Fondos:** grises fríos, azules apagados, sepia y blanco hueso.
 - **Protagonista y Tinta:** negro profundo con brillos húmedos.
