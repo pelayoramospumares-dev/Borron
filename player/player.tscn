@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1"]
 [ext_resource type="Script" path="res://player/state_machine.gd" id="2"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://player/states/dead.gd" id="12"]
 [ext_resource type="Script" path="res://components/hurtbox.gd" id="13"]
 [ext_resource type="Script" path="res://components/hitbox.gd" id="14"]
+[ext_resource type="Script" path="res://player/states/puddle.gd" id="15"]
 
 [sub_resource type="CapsuleShape2D" id="body_shape"]
 radius = 20.0
@@ -25,6 +26,12 @@ size = Vector2(36, 88)
 [sub_resource type="RectangleShape2D" id="attack_shape"]
 resource_local_to_scene = true
 size = Vector2(110, 70)
+
+[sub_resource type="RectangleShape2D" id="puddle_shape"]
+size = Vector2(72, 20)
+
+[sub_resource type="RectangleShape2D" id="puddle_hit_shape"]
+size = Vector2(90, 30)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -86,3 +93,28 @@ once_per_activation = true
 
 [node name="Shape" type="CollisionShape2D" parent="AttackHitbox"]
 shape = SubResource("attack_shape")
+
+[node name="Puddle" type="Node" parent="StateMachine"]
+script = ExtResource("15")
+
+[node name="PuddleCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 38)
+shape = SubResource("puddle_shape")
+disabled = true
+
+[node name="StandCheck" type="ShapeCast2D" parent="."]
+enabled = false
+shape = SubResource("body_shape")
+target_position = Vector2(0, 0)
+collision_mask = 33
+
+[node name="PuddleHitbox" type="Area2D" parent="."]
+position = Vector2(0, 34)
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("14")
+once_per_activation = true
+
+[node name="Shape" type="CollisionShape2D" parent="PuddleHitbox"]
+shape = SubResource("puddle_hit_shape")

@@ -19,3 +19,15 @@ func _box(r: Rect2) -> StaticBody2D:
 	body.add_child(shape)
 	add_child(body)
 	return body
+
+
+## Rejilla (capa grates) en x=-600, de y=-300 a y=0.
+func add_grate() -> StaticBody2D:
+	var g := _box(Rect2(-610, -300, 20, 300))
+	g.collision_layer = 32
+	return g
+
+
+## Túnel bajo: techo de x=-1300 a x=-1100 cuya base queda a 40 px del suelo.
+func add_low_tunnel() -> StaticBody2D:
+	return _box(Rect2(-1300, -400, 200, 360))

@@ -12,6 +12,7 @@ signal heal_started()
 signal healed()
 signal hurt(amount: float)
 signal died()
+signal puddle_changed(active: bool)
 
 const HALF_HEIGHT := 48.0
 const BASE_HP := 100.0
@@ -45,6 +46,10 @@ var ink: InkMeter
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var attack_hitbox: Hitbox = $AttackHitbox
 @onready var _attack_shape: CollisionShape2D = $AttackHitbox/Shape
+@onready var puddle_hitbox: Hitbox = $PuddleHitbox
+@onready var _body_shape: CollisionShape2D = $Collision
+@onready var _puddle_shape: CollisionShape2D = $PuddleCollision
+@onready var _stand_check: ShapeCast2D = $StandCheck
 
 
 func _ready() -> void:
@@ -56,6 +61,8 @@ func _ready() -> void:
 	attack_hitbox.source = self
 	attack_hitbox.landed.connect(_on_attack_landed)
 	attack_hitbox.deactivate()
+	puddle_hitbox.source = self
+	puddle_hitbox.deactivate()
 	refresh_mods()
 	sm.setup(self)
 
@@ -107,6 +114,18 @@ func prepare_attack_hitbox(direction: StringName) -> void:
 			attack_hitbox.position = Vector2(facing * (20 + rect.size.x * 0.5), 0)
 	attack_hitbox.damage = attack_damage()
 	attack_hitbox.set_meta("direction", direction)
+
+
+func set_puddle_shape(active: bool) -> void:
+	_body_shape.set_deferred(&"disabled", active)
+	_puddle_shape.set_deferred(&"disabled", not active)
+	set_collision_mask_value(6, not active)
+
+
+## True si hay sitio para recuperar la forma de pie.
+func can_stand() -> bool:
+	_stand_check.force_shapecast_update()
+	return not _stand_check.is_colliding()
 
 
 ## Reaparece en `at` con vida e Inestabilidad reiniciadas.
@@ -172,6 +191,9 @@ func try_common_actions() -> bool:
 	if input.held(&"heal") and is_on_floor() and ink.ink >= ink.config.heal_cost \
 			and sm.current_name() != &"heal":
 		sm.transition(&"heal")
+		return true
+	if input.held(&"puddle") and GameState.has_ability(&"puddle"):
+		sm.transition(&"puddle")
 		return true
 	if input.pressed(&"dash") and can_dash():
 		sm.transition(&"dash")
