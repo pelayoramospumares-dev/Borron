@@ -15,7 +15,15 @@ func _ready() -> void:
 			await get_tree().physics_frame
 		Input.action_release("move_right")
 		Input.action_release("move_left")
-	for k in 20:
+	if CaptureUtil.arg("tree", "") != "":
+		GameState.recuerdos = 6
+		w.skill_ui.open()
+		w.skill_ui.press_node(&"marea_1")
+	if CaptureUtil.arg("hurt", "") != "":
+		w.player.health.hp = 45
+		w.player.ink.ink = 70
+		w.player.ink.instability = 70
+	for k in 40:
 		await get_tree().process_frame
 	CaptureUtil.save(self, CaptureUtil.arg("out", "user://room.png"))
 	get_tree().quit()

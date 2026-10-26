@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 export PATH="$HOME/.local/bin:$PATH"
 godot --headless --path . --import >/dev/null 2>&1
 out="$(mktemp)"
-godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests -ginclude_subdirs -gexit "$@" 2>&1 | tee "$out"
+timeout 900 godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests -ginclude_subdirs -gexit "$@" 2>&1 | tee "$out"
 rc=${PIPESTATUS[0]}
 if grep -qE "SCRIPT ERROR|Parse Error" "$out"; then
   echo "test.sh: errores de script detectados"; rc=1

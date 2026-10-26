@@ -15,6 +15,9 @@ var player: Player
 var camera: GameCamera
 var vfx: VfxSpawner
 var room: Room
+var hud: Hud
+var skill_ui: SkillTreeUI
+var pause_menu: PauseMenu
 var drop_chance_override: float = -1.0
 var _fade: ColorRect
 var _sky: ColorRect
@@ -44,6 +47,15 @@ func _ready() -> void:
 	vfx.bind_player(player)
 	_build_fade()
 	add_child(FpsCounter.new())
+	hud = Hud.new()
+	add_child(hud)
+	hud.bind(player)
+	skill_ui = SkillTreeUI.new()
+	add_child(skill_ui)
+	skill_ui.bind(player)
+	pause_menu = PauseMenu.new()
+	add_child(pause_menu)
+	pause_menu.to_menu.connect(_to_menu)
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.enemy_killed.connect(_on_enemy_killed)
 	_load_room(start_room)
@@ -76,7 +88,9 @@ func _load_room(room_id: StringName) -> void:
 	_sky_mat.set_shader_parameter(&"top", room.sky_top)
 	_sky_mat.set_shader_parameter(&"bottom", room.sky_bottom)
 	for arena in room.find_children("*", "BossArena", true, false):
-		(arena as BossArena).boss_started.connect(func(b: EnemyBase, _k: String) -> void:
+		(arena as BossArena).boss_finished.connect(hud.hide_boss)
+		(arena as BossArena).boss_started.connect(func(b: EnemyBase, k: String) -> void:
+			hud.show_boss(b, k)
 			camera.shake(10.0, 0.5)
 			if b is Scribe:
 				(b as Scribe).roared.connect(func() -> void: camera.shake(18.0, 0.9)))
@@ -111,6 +125,13 @@ func _on_enemy_killed(enemy: Node) -> void:
 		r.value = 1
 		room.add_actor.call_deferred(r)
 		r.position = e.global_position + Vector2(0, -20)
+
+
+func _to_menu() -> void:
+	var menu: Node = load("res://ui/main_menu.tscn").instantiate()
+	get_tree().root.add_child(menu)
+	get_tree().current_scene = menu
+	queue_free()
 
 
 func _fade_to(alpha: float) -> void:

@@ -1,0 +1,45 @@
+keys,es
+UI_CONTINUE,Continuar
+UI_NEW_GAME,Nueva partida
+UI_QUIT,Salir
+UI_RESUME,Continuar
+UI_TO_MENU,Volver al menú
+UI_PAUSED,Pausa
+MENU_SUBTITLE,Una gota de tinta que despertó
+TREE_TITLE,Árbol de la Tinta
+TREE_RECUERDOS,Recuerdos: %d
+TREE_COST,Coste: %d Recuerdos
+TREE_BUY_HINT,Pulsa de nuevo para aprenderlo
+TREE_BOUGHT,Aprendido
+TREE_LOCKED,Requiere el nodo anterior de la rama
+TREE_NEED_ABILITY,Requiere la forma charco
+TREE_NOT_ENOUGH,No tienes suficientes Recuerdos
+TREE_CLOSE,Cerrar (Esc / B)
+BRANCH_FORMA,Forma
+BRANCH_MAREA,Marea
+BRANCH_VORACIDAD,Voracidad
+SKILL_FORMA_1_NAME,Piel espesa
+SKILL_FORMA_1_DESC,"Tu tinta se espesa: +20 de vida máxima."
+SKILL_FORMA_2_NAME,Contención
+SKILL_FORMA_2_DESC,"La Inestabilidad sube un 30 % más despacio."
+SKILL_FORMA_3_NAME,Recomponerse
+SKILL_FORMA_3_DESC,"Te curas un 40 % más rápido."
+SKILL_MAREA_1_NAME,Corriente
+SKILL_MAREA_1_DESC,"El dash recorre un 30 % más de distancia."
+SKILL_MAREA_2_NAME,Charco voraz
+SKILL_MAREA_2_DESC,"En forma charco dañas a los enemigos que atraviesas (15)."
+SKILL_MAREA_3_NAME,Rebote
+SKILL_MAREA_3_DESC,"Golpear a un enemigo recarga el dash."
+SKILL_VORACIDAD_1_NAME,Hambre
+SKILL_VORACIDAD_1_DESC,"+10 % de daño y absorbes un 25 % más de tinta."
+SKILL_VORACIDAD_2_NAME,Desbordarse
+SKILL_VORACIDAD_2_DESC,"El Desborde dura 3 segundos más."
+SKILL_VORACIDAD_3_NAME,Tentáculos
+SKILL_VORACIDAD_3_DESC,"Tus ataques alcanzan un 35 % más lejos."
+BOSS_SCRIBE,El Escriba Hueco
+ABILITY_PUDDLE,Forma charco
+ABILITY_PUDDLE_HINT,"Mantén I (o LB) para disolverte y pasar por rejillas"
+ABILITY_GAINED,Has recuperado
+END_PROTOTYPE,"Fin del prototipo
+
+Gracias por jugar a Borrón"

@@ -16,6 +16,7 @@ func before_each() -> void:
 
 
 func after_each() -> void:
+	get_tree().paused = false
 	PlayerTestHelpers.release_all()
 	HitStop.enabled = true
 	for f: String in DirAccess.get_files_at(_dir):
@@ -94,6 +95,8 @@ func test_tintero_saves_and_heals() -> void:
 	var t := w.room.tintero()
 	assert_not_null(t)
 	t.rest(w.player)
+	assert_true(w.skill_ui.is_open(), "descansar abre el árbol")
+	w.skill_ui.close()
 	assert_eq(w.player.health.hp, w.player.health.max_hp)
 	assert_eq(GameState.last_tintero, &"r03")
 	assert_true(SaveManager.has_save(0))
@@ -147,6 +150,7 @@ func test_respawn_at_tintero_after_death() -> void:
 	var w := _world(&"r03", &"left")
 	await wait_physics_frames(4)
 	w.room.tintero().rest(w.player)
+	w.skill_ui.close()
 	w.change_room(&"r02", &"right")
 	await wait_physics_frames(20)
 	assert_eq(w.room.room_id, &"r02")
