@@ -9,6 +9,8 @@ run/max_fps=0
 
 [autoload]
 
+EventBus="*res://autoload/event_bus.gd"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=2
