@@ -107,7 +107,7 @@ func wobble_amount() -> float:
 
 
 func drip_segments() -> int:
-	return 3 + int(instability / 20.0)
+	return 2 + int(instability / 25.0)
 
 
 func channel(ch: StringName) -> float:

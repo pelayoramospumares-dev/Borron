@@ -7,8 +7,8 @@ const ITERATIONS := 8
 const GRAVITY := Vector2(0, 1400)
 const DAMPING := 0.985
 
-@export var segment_length: float = 4.0
-@export var base_width: float = 4.5
+@export var segment_length: float = 3.0
+@export var base_width: float = 3.6
 @export var color: Color = Color(0.025, 0.025, 0.04)
 
 var anchor: Node2D
@@ -70,6 +70,7 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	var n := _points.size()
 	for i in range(n - 1):
-		var w := lerpf(base_width, base_width * 0.45, float(i) / float(n))
+		# Ancho en el anclaje, estrecho en el cuello y bulbo al final.
+		var w := lerpf(base_width, base_width * 0.3, float(i) / float(n - 1))
 		draw_line(_points[i], _points[i + 1], color, w, true)
-	draw_circle(_points[n - 1], base_width * 0.7, color, true, -1.0, true)
+	draw_circle(_points[n - 1], base_width * 0.55, color, true, -1.0, true)
