@@ -40,9 +40,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"pause"):
 		if _root.visible:
 			resume()
+			get_viewport().set_input_as_handled()
 		elif not get_tree().paused:
 			open()
-		get_viewport().set_input_as_handled()
+			get_viewport().set_input_as_handled()
 
 
 func open() -> void:

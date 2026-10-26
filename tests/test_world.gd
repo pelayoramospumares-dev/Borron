@@ -172,3 +172,52 @@ func test_enemy_drop_spawns_recuerdo() -> void:
 	EventBus.enemy_killed.emit(dummy)
 	await wait_process_frames(2)
 	assert_eq(w.room.recuerdos().size(), before + 1)
+
+
+func _press_action(action: StringName) -> void:
+	var ev := InputEventAction.new()
+	ev.action = action
+	ev.pressed = true
+	Input.parse_input_event(ev)
+	var up := InputEventAction.new()
+	up.action = action
+	up.pressed = false
+	Input.parse_input_event(up)
+
+
+func test_pause_key_closes_skill_tree() -> void:
+	var w := _world(&"r03", &"left")
+	await wait_physics_frames(4)
+	w.skill_ui.open()
+	_press_action(&"pause")
+	await wait_process_frames(3)
+	assert_false(w.skill_ui.is_open())
+	assert_false(w.pause_menu.is_open())
+	assert_false(get_tree().paused)
+
+
+func test_boss_defeat_is_saved() -> void:
+	var w := _world(&"r10", &"left")
+	await wait_physics_frames(4)
+	EventBus.boss_defeated.emit(&"scribe")
+	assert_true(SaveManager.has_save(0))
+
+
+func test_buying_skill_spawns_no_ink_splash() -> void:
+	var w := _world(&"r03", &"left")
+	await wait_physics_frames(4)
+	watch_signals(EventBus)
+	GameState.recuerdos = 5
+	w.skill_ui.open()
+	w.skill_ui.press_node(&"forma_1")
+	w.skill_ui.press_node(&"forma_1")
+	w.skill_ui.close()
+	assert_signal_not_emitted(EventBus, "hit_landed")
+
+
+func test_collecting_recuerdo_spawns_no_ink_splash() -> void:
+	var w := _world(&"r01", &"start")
+	await wait_physics_frames(4)
+	watch_signals(EventBus)
+	w.room.recuerdos()[0].collect()
+	assert_signal_not_emitted(EventBus, "hit_landed")

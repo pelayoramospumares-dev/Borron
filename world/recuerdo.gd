@@ -56,5 +56,21 @@ func collect() -> void:
 		GameState.collected_pickups.append(pickup_id)
 	GameState.add_recuerdos(value)
 	collected.emit(value)
-	EventBus.hit_landed.emit(global_position, 0.0)
+	_sparkle()
 	queue_free()
+
+
+## Destello dorado que sobrevive al Recuerdo recogido.
+func _sparkle() -> void:
+	var parent := get_parent()
+	if parent == null:
+		return
+	var p := InkParticles.create(&"hit_glint")
+	var m := p.process_material as ParticleProcessMaterial
+	m.color = InkParticles.GOLD
+	m.spread = 180.0
+	p.amount = 14
+	parent.add_child(p)
+	p.global_position = global_position
+	p.emitting = true
+	p.finished.connect(p.queue_free)

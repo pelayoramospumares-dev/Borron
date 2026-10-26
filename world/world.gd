@@ -58,6 +58,7 @@ func _ready() -> void:
 	pause_menu.to_menu.connect(_to_menu)
 	EventBus.player_died.connect(_on_player_died)
 	EventBus.enemy_killed.connect(_on_enemy_killed)
+	EventBus.boss_defeated.connect(func(_id: StringName) -> void: SaveManager.save(0))
 	_load_room(start_room)
 	_place_player(start_entry)
 

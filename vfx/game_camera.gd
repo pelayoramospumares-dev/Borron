@@ -22,10 +22,13 @@ var _noise := FastNoiseLite.new()
 var _noise_t: float = 0.0
 
 
-func _ready() -> void:
-	_noise.frequency = 2.5
+func _init() -> void:
 	# En 2D Godot interpola solo lo que se mueve en el paso de físicas.
 	process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS
+
+
+func _ready() -> void:
+	_noise.frequency = 2.5
 	position_smoothing_enabled = false
 	ignore_rotation = true
 

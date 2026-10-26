@@ -77,7 +77,6 @@ func press_node(id: StringName) -> void:
 		tree_data.purchase(id)
 		if _player:
 			_player.refresh_mods()
-		EventBus.hit_landed.emit(Vector2.ZERO, 0.0)
 	_selected = id
 	_refresh()
 
