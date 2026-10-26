@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SkillNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://skills/skill_node.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"voracidad_3"
+branch = "voracidad"
+name_key = "SKILL_VORACIDAD_3_NAME"
+desc_key = "SKILL_VORACIDAD_3_DESC"
+cost = 4
+requires = Array[StringName]([&"voracidad_2"])
+requires_ability = &""
+mods = {"attack_range_mult": 1.35}

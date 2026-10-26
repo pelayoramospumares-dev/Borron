@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SkillNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://skills/skill_node.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"marea_1"
+branch = "marea"
+name_key = "SKILL_MAREA_1_NAME"
+desc_key = "SKILL_MAREA_1_DESC"
+cost = 2
+requires = Array[StringName]([])
+requires_ability = &""
+mods = {"dash_distance_mult": 1.3}

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SkillNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://skills/skill_node.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"marea_2"
+branch = "marea"
+name_key = "SKILL_MAREA_2_NAME"
+desc_key = "SKILL_MAREA_2_DESC"
+cost = 3
+requires = Array[StringName]([&"marea_1"])
+requires_ability = &"puddle"
+mods = {"puddle_contact_damage": 15.0}

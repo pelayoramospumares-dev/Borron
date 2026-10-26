@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="SkillNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://skills/skill_node.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"forma_3"
+branch = "forma"
+name_key = "SKILL_FORMA_3_NAME"
+desc_key = "SKILL_FORMA_3_DESC"
+cost = 4
+requires = Array[StringName]([&"forma_2"])
+requires_ability = &""
+mods = {"heal_time_mult": 0.6}
