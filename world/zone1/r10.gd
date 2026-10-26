@@ -30,3 +30,4 @@ func _build() -> void:
 		column(x, 900, rng.randf_range(400, 900), rng.randf_range(450, 700))
 	far_skyline(780, 5200.0)
 	foreground_brush(1200, 900, 300)
+	painted_backdrop(900)

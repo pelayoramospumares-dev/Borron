@@ -44,3 +44,35 @@ func test_content_children_inherit_fog() -> void:
 	l.content().add_child(p)
 	assert_true(p.use_parent_material)
 	assert_true(l.content().use_parent_material)
+
+
+func test_missing_layer_uses_placeholder() -> void:
+	var room := Room.new()
+	room.room_id = &"test"
+	add_child_autofree(room)
+	var l := room.painted_layer("res://art/backgrounds/zone1/no_existe.png", 1500.0, Vector2(500, 900), false)
+	assert_not_null(l)
+	var spr := l.content().get_child(0) as Sprite2D
+	assert_not_null(spr)
+	assert_eq(spr.texture.get_width(), 64, "textura sustituta")
+
+
+func test_optional_missing_layer_is_skipped() -> void:
+	var room := Room.new()
+	room.room_id = &"test"
+	add_child_autofree(room)
+	assert_null(room.painted_layer("res://art/backgrounds/zone1/no_existe.png", 1500.0, Vector2(500, 900)))
+
+
+func test_existing_layer_loads_texture() -> void:
+	var img := Image.create(32, 16, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0.5, 0.5, 0.5))
+	var path := "user://test_layer.png"
+	img.save_png(path)
+	var room := Room.new()
+	room.room_id = &"test"
+	add_child_autofree(room)
+	var l := room.painted_layer(path, 800.0, Vector2(0, 0))
+	var spr := l.content().get_child(0) as Sprite2D
+	assert_eq(spr.texture.get_width(), 32)
+	DirAccess.remove_absolute(path)

@@ -22,3 +22,4 @@ func _build() -> void:
 	recuerdo("b", Vector2(1760, 570))
 	enemy(&"crawler", Vector2(2450, 676))
 	decorate_outskirts(900, 0, 3000)
+	painted_backdrop(900)

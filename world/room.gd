@@ -228,6 +228,56 @@ func layer(depth: float, pos: Vector2) -> DepthLayer:
 	return l
 
 
+## Fondo pintado (p. ej. generado con Higgsfield) a una profundidad.
+## `pos` es el centro inferior de la imagen; `width` el ancho con el que se
+## muestra (0 = tamaño original). Si falta la imagen: con optional se omite
+## (queda el escenario procedural); si no, se muestra un sustituto rosa.
+func painted_layer(path: String, depth: float, pos: Vector2, optional: bool = true, width: float = 0.0) -> DepthLayer:
+	var tex := _load_texture(path)
+	if tex == null:
+		if optional:
+			return null
+		push_warning("Room: falta la imagen %s; se usa un sustituto" % path)
+		tex = _placeholder_texture()
+	var l := layer(depth, pos)
+	var spr := Sprite2D.new()
+	spr.texture = tex
+	spr.centered = true
+	var sc := width / tex.get_width() if width > 0.0 else 1.0
+	spr.scale = Vector2(sc, sc)
+	spr.position = Vector2(0, -tex.get_height() * sc * 0.5)
+	l.content().add_child(spr)
+	return l
+
+
+## Las tres capas pintadas de una sala (lejana, media, cercana), si existen:
+## art/backgrounds/zone1/<sala>_far.png, _mid.png y _near.png.
+func painted_backdrop(ground_y: float) -> void:
+	var view_w := 1920.0 * 1.25
+	for info: Array in [["far", 4000.0], ["mid", 1500.0], ["near", 400.0]]:
+		var depth: float = info[1]
+		var f := DepthLayer.parallax_factor(depth)
+		var width := view_w + maxf(bounds.size.x - view_w, 0.0) * f + 400.0
+		var path := "res://art/backgrounds/zone1/%s_%s.png" % [room_id, info[0]]
+		painted_layer(path, depth, Vector2(bounds.get_center().x, ground_y + 60.0), true, width)
+
+
+func _load_texture(path: String) -> Texture2D:
+	if path.begins_with("res://") and ResourceLoader.exists(path):
+		return load(path) as Texture2D
+	if FileAccess.file_exists(path):
+		var img := Image.load_from_file(path)
+		if img:
+			return ImageTexture.create_from_image(img)
+	return null
+
+
+func _placeholder_texture() -> Texture2D:
+	var img := Image.create(64, 64, false, Image.FORMAT_RGBA8)
+	img.fill(Color(1.0, 0.0, 0.8))
+	return ImageTexture.create_from_image(img)
+
+
 ## Casa en ruinas a medio borrar.
 func ruined_house(x: float, ground_y: float, depth: float, w: float, h: float) -> void:
 	var l := layer(depth, Vector2(x, ground_y))
