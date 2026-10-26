@@ -10,6 +10,8 @@ run/max_fps=0
 [autoload]
 
 EventBus="*res://autoload/event_bus.gd"
+GameState="*res://autoload/game_state.gd"
+SaveManager="*res://autoload/save_manager.gd"
 
 [debug]
 
