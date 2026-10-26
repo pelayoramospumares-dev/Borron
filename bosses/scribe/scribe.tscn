@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://bosses/scribe/scribe.gd" id="1"]
+[ext_resource type="Resource" path="res://bosses/scribe/scribe_stats.tres" id="2"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(90, 200)
+
+[node name="Scribe" type="CharacterBody2D"]
+floor_block_on_wall = false
+script = ExtResource("1")
+stats = ExtResource("2")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("shape")
