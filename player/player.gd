@@ -53,6 +53,7 @@ var ink: InkMeter
 
 
 func _ready() -> void:
+	add_to_group(&"player")
 	ink = InkMeter.new(ink_config)
 	health.max_hp = BASE_HP
 	health.reset()

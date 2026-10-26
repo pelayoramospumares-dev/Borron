@@ -31,3 +31,8 @@ func add_grate() -> StaticBody2D:
 ## Túnel bajo: techo de x=-1300 a x=-1100 cuya base queda a 40 px del suelo.
 func add_low_tunnel() -> StaticBody2D:
 	return _box(Rect2(-1300, -400, 200, 360))
+
+
+## Plataforma flotante: x=-400..0, top y=-300 (con bordes a ambos lados).
+func add_ledge() -> StaticBody2D:
+	return _box(Rect2(-400, -300, 400, 30))

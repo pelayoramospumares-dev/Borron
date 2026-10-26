@@ -14,6 +14,11 @@ func _ready() -> void:
 	decals.z_index = -1
 	add_child(decals)
 	EventBus.hit_landed.connect(_on_hit_landed)
+	EventBus.enemy_killed.connect(func(e: Node) -> void:
+		if e is Node2D:
+			burst(&"death_burst", (e as Node2D).global_position)
+			if camera:
+				camera.shake(8.0, 0.2))
 
 
 func bind_player(p: Player) -> void:
