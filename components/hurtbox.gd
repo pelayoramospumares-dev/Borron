@@ -1,19 +1,26 @@
 class_name Hurtbox
 extends Area2D
-## Zona que recibe golpes de los Hitbox.
+## Zona que recibe golpes de los Hitbox que la solapan.
 
 signal hit(hitbox: Hitbox)
 
 var invulnerable: bool = false
 
 
-func _ready() -> void:
-	area_entered.connect(_on_area_entered)
+func _init() -> void:
+	monitorable = false
 
 
-func _on_area_entered(area: Area2D) -> void:
-	if invulnerable:
+func _physics_process(_delta: float) -> void:
+	if invulnerable or not monitoring:
 		return
-	var hb := area as Hitbox
-	if hb and hb.source != owner:
+	for area in get_overlapping_areas():
+		var hb := area as Hitbox
+		if hb == null or not hb.monitorable or (hb.source != null and hb.source == owner):
+			continue
+		if not hb.can_hit(self):
+			continue
+		hb.register_hit(self)
 		hit.emit(hb)
+		if invulnerable:
+			return

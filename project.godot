@@ -12,6 +12,7 @@ run/max_fps=0
 EventBus="*res://autoload/event_bus.gd"
 GameState="*res://autoload/game_state.gd"
 SaveManager="*res://autoload/save_manager.gd"
+HitStop="*res://autoload/hit_stop.gd"
 
 [debug]
 
