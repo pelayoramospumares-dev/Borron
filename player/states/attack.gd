@@ -22,6 +22,10 @@ func enter() -> void:
 	p.prepare_attack_hitbox(direction)
 
 
+func elapsed() -> float:
+	return _t
+
+
 func exit() -> void:
 	player.attack_hitbox.deactivate()
 
