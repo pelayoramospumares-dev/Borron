@@ -22,6 +22,7 @@ var _knock_timer: float = 0.0
 func _ready() -> void:
 	if stats == null:
 		stats = EnemyStats.new()
+	add_to_group(&"enemies")
 	collision_layer = 4
 	collision_mask = 33
 	spawn_position = global_position
